@@ -18,7 +18,6 @@ public class TodoService {
     }
 
     public List<Todos> findByUserName(String user) {
-
         return todos;
     }
 }
