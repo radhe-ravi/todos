@@ -25,23 +25,21 @@ public class SpringSecurityConfiguration {
     @Bean
     public InMemoryUserDetailsManager createUserDetailsManager() {
 
-        UserDetails userDetails1 = createNewUser("in28minutes", "dummy");
-        UserDetails userDetails2 = createNewUser("ranga", "dummydummy");
+        UserDetails userDetails1 = createNewUser("radhe", "zero");
+        UserDetails userDetails2 = createNewUser("", "");
 
         return new InMemoryUserDetailsManager(userDetails1, userDetails2);
     }
 
     private UserDetails createNewUser(String username, String password) {
-        Function<String, String> passwordEncoder
-                = input -> passwordEncoder().encode(input);
+        Function<String, String> passwordEncoder = input -> passwordEncoder().encode(input);
 
-        UserDetails userDetails = User.builder()
+        return User.builder()
                 .passwordEncoder(passwordEncoder)
                 .username(username)
                 .password(password)
                 .roles("USER","ADMIN")
                 .build();
-        return userDetails;
     }
 
     @Bean
@@ -53,23 +51,14 @@ public class SpringSecurityConfiguration {
     //A login form is shown for unauthorized requests
     //CSRF disable
     //Frames
-
-    // Starting from Spring Boot 3.1.x Build Pattern/Fluent API Replaced with Lambda DSL(Domain Specific Language) or Method Reference
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(
                 auth -> auth.anyRequest().authenticated());
         http.formLogin(withDefaults());
-
-        // http.csrf().disable();
         http.csrf(csrf -> csrf.disable());
-        // http.csrf(AbstractHttpConfigurer::disable);
-        // http.headers().frameOptions().disable();
         http.headers(headers -> headers.frameOptions(frameOptionsConfig-> frameOptionsConfig.disable()));
-
-        // http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
-
         return http.build();
     }
 

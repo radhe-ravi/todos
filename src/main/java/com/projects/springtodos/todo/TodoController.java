@@ -56,8 +56,6 @@ public class TodoController {
 
     @RequestMapping("delete-todo")
     public String deleteTodo(@RequestParam int id) {
-        //Delete todo
-
         todoService.deleteById(id);
         return "redirect:list-todos";
 
@@ -87,5 +85,4 @@ public class TodoController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
-
 }
